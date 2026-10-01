@@ -49,3 +49,5 @@ jobs:
           pip install -e '.[test]'
           python -m playwright install --with-deps chromium
           pytest
+      - name: Build the container image
+        run: docker build -t browser-calculator:ci .
