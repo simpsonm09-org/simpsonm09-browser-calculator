@@ -1,0 +1,12 @@
+.git
+.github
+docs
+tests
+templates
+todo.md
+__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+.mise
+.venv

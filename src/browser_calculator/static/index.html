@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Browser Calculator</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<main class="calculator" aria-label="Calculator">
+  <section class="display">
+    <div class="display__expression" id="expression">0</div>
+    <div class="display__result" id="result" role="status" aria-live="polite"></div>
+  </section>
+
+  <div class="keypad" id="keypad">
+    <button type="button" class="key key--action" data-action="clear">AC</button>
+    <button type="button" class="key key--action" data-action="backspace" aria-label="Backspace">
+      <svg class="key__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M9 5h11a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9L2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M12 9.5l5 5M17 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <button type="button" class="key key--operator" data-insert="(">(</button>
+    <button type="button" class="key key--operator" data-insert=")">)</button>
+
+    <button type="button" class="key" data-insert="7">7</button>
+    <button type="button" class="key" data-insert="8">8</button>
+    <button type="button" class="key" data-insert="9">9</button>
+    <button type="button" class="key key--operator" data-insert="/">/</button>
+
+    <button type="button" class="key" data-insert="4">4</button>
+    <button type="button" class="key" data-insert="5">5</button>
+    <button type="button" class="key" data-insert="6">6</button>
+    <button type="button" class="key key--operator" data-insert="*">*</button>
+
+    <button type="button" class="key" data-insert="1">1</button>
+    <button type="button" class="key" data-insert="2">2</button>
+    <button type="button" class="key" data-insert="3">3</button>
+    <button type="button" class="key key--operator" data-insert="-">-</button>
+
+    <button type="button" class="key" data-insert="0">0</button>
+    <button type="button" class="key" data-insert=".">.</button>
+    <button type="button" class="key key--operator" data-insert="%">%</button>
+    <button type="button" class="key key--operator" data-insert="+">+</button>
+
+    <button type="button" class="key key--operator" data-insert="**" aria-label="Power">^</button>
+    <button type="button" class="key key--equals" data-action="equals">=</button>
+  </div>
+</main>
+<script src="/static/app.js" defer></script>
+</body>
+</html>

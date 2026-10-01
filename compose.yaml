@@ -1,0 +1,7 @@
+services:
+  calculator:
+    build: .
+    image: browser-calculator:local
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
