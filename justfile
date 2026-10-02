@@ -11,9 +11,9 @@ default:
 install:
     mise install
 
-# Install the Python dependencies for local runs and tests.
+# Install the Node dependencies from the lockfile.
 deps:
-    mise run deps
+    npm ci
 
 # Run every linter over the tracked files.
 lint:
@@ -27,9 +27,17 @@ lint-fix:
 aislop:
     npx --yes aislop@0.16.1 ci
 
-# Run the test suite. `mise run test` should hold the repository test command.
+# Run the test suite. `mise run test` holds the repository test command.
 test:
     mise run test
+
+# Run the tests and write an lcov report to coverage/lcov.info.
+coverage:
+    npm run coverage
+
+# Regenerate docs/openapi.json from the route schemas.
+spec:
+    node scripts/write-openapi.mjs
 
 # Serve the calculator on http://127.0.0.1:8000 without a container.
 serve:

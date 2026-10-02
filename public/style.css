@@ -12,6 +12,7 @@
   --equals-hover: #2148e0;
   --equals-text: #ffffff;
   --error: #c0392b;
+  --ok: #1f7a3d;
   --focus: #2f5bff;
   --border: rgba(15, 23, 42, 0.08);
   --shadow: 0 24px 48px rgba(15, 23, 42, 0.16);
@@ -30,6 +31,7 @@
     --equals-bg: #3b6bff;
     --equals-hover: #5480ff;
     --error: #ff8a80;
+    --ok: #8ce0a8;
     --focus: #8fa8ff;
     --border: rgba(255, 255, 255, 0.08);
     --shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
@@ -55,8 +57,15 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
-.calculator {
+.page {
   width: min(100%, 360px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.calculator {
+  width: 100%;
   padding: 20px;
   background: var(--card);
   border: 1px solid var(--border);
@@ -165,12 +174,81 @@ body {
   display: block;
 }
 
+.contact {
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+}
+
+.contact__title {
+  margin: 0 0 14px;
+  font-size: 1.125rem;
+}
+
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact__form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.contact__form input,
+.contact__form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--text);
+  background: var(--key-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.contact__form input:focus-visible,
+.contact__form textarea:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.contact__submit {
+  margin-top: 10px;
+  min-height: 46px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--equals-text);
+  background: var(--equals-bg);
+  border: 1px solid transparent;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.contact__submit:hover {
+  background: var(--equals-hover);
+}
+
+.contact__status {
+  min-height: 1.4em;
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+  color: var(--ok);
+}
+
+.contact__status--error {
+  color: var(--error);
+}
+
 @media (max-width: 380px) {
   body {
     padding: 12px 10px;
   }
 
-  .calculator {
+  .calculator,
+  .contact {
     padding: 14px;
     border-radius: 18px;
   }

@@ -65,10 +65,13 @@ async function describeFailure(response) {
       return first.msg;
     }
   }
+  if (payload !== null && typeof payload === "object" && typeof payload.message === "string") {
+    return payload.message;
+  }
   return "Request failed (HTTP " + response.status + ")";
 }
 
-async function evaluate() {
+async function evaluateExpression() {
   // Enter activates a focused key and also reaches the keydown handler, so the
   // in-flight flag is what keeps a second submit harmless.
   if (inFlight) {
@@ -137,7 +140,7 @@ keypadEl.addEventListener("click", (event) => {
       backspace();
       break;
     case "equals":
-      evaluate();
+      evaluateExpression();
       break;
   }
 });
@@ -146,10 +149,13 @@ document.addEventListener("keydown", (event) => {
   if (event.ctrlKey || event.metaKey || event.altKey) {
     return;
   }
+  if (event.target instanceof HTMLFormElement || event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+    return;
+  }
   if (event.key === "Enter" || event.key === "=") {
     event.preventDefault();
     if (!event.repeat) {
-      evaluate();
+      evaluateExpression();
     }
     return;
   }
@@ -172,5 +178,39 @@ document.addEventListener("keydown", (event) => {
     insert(event.key);
   }
 });
+
+const formEl = document.getElementById("contact-form");
+const formStatusEl = document.getElementById("form-status");
+
+if (formEl !== null && formStatusEl !== null) {
+  formEl.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const data = new FormData(formEl);
+    const payload = {
+      name: String(data.get("name") ?? ""),
+      email: String(data.get("email") ?? ""),
+      message: String(data.get("message") ?? ""),
+    };
+    formStatusEl.textContent = "\u2026";
+    formStatusEl.classList.remove("contact__status--error");
+    try {
+      const response = await fetch("/api/tools/form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        formStatusEl.textContent = await describeFailure(response);
+        formStatusEl.classList.add("contact__status--error");
+        return;
+      }
+      const body = await response.json();
+      formStatusEl.textContent = "Thanks, " + body.name + ". Your message was received.";
+    } catch {
+      formStatusEl.textContent = "Could not reach the server";
+      formStatusEl.classList.add("contact__status--error");
+    }
+  });
+}
 
 render();

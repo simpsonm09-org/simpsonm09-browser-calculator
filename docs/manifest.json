@@ -1,6 +1,6 @@
 {
   "readme": true,
-  "features": ["docs/features/calculator.md"],
+  "features": ["docs/features/calculator.md", "docs/features/form.md"],
   "diagrams": ["docs/architecture.md"],
-  "api": { "style": "openapi", "spec": "docs/openapi.yaml" }
+  "api": { "style": "openapi", "spec": "docs/openapi.json" }
 }

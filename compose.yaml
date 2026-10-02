@@ -4,4 +4,9 @@ services:
     image: browser-calculator:local
     ports:
       - "8000:8000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8000/healthz').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
     restart: unless-stopped
