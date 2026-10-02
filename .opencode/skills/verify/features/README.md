@@ -4,7 +4,7 @@ This directory is the maintained source for verifying the user-facing behavior o
 
 ## Baseline preconditions
 
-- Launch the app at `http://127.0.0.1:8010` with the pinned Python (see the skill's Launch section).
+- The driver launches the server on a free port; to drive a hand-started instance, launch it at `http://127.0.0.1:8010` with the pinned Node (see the skill's Launch section).
 - Confirm `/healthz` returns `{"status":"ok"}` before driving anything.
 - Never drive an instance that this run did not start; do not share a port with `just serve`.
 - Write proof under `artifacts/verify/<feature>/`.
@@ -12,10 +12,11 @@ This directory is the maintained source for verifying the user-facing behavior o
 ## Driving conventions
 
 - Start every recipe from the loaded page at `/`.
-- Prefer ARIA roles and accessible names (`get_by_role("button", name="7")`) over CSS position.
+- Prefer ARIA roles and accessible names (`getByRole("button", { name: "7" })`) over CSS position.
 - The display uses `#expression` for the input and `#result` for the evaluated number.
-- Run browser actions through `scripts/drive.py` or an equivalent Playwright sync flow.
-- Run terminal actions with `curl` against `POST /api/evaluate`.
+- The form uses `#contact-name`, `#contact-email`, `#contact-message`, and `#form-status`.
+- Run browser actions through `scripts/drive.mjs` or an equivalent Playwright flow.
+- Run terminal actions with `curl` against `POST /api/evaluate` and `POST /api/tools/form`.
 - Keep proof artifacts during cleanup.
 
 ## Proof and skip reporting
@@ -34,3 +35,4 @@ Each feature file starts with an H1 title and one paragraph of user-visible beha
 ## Features
 
 - [Calculator](./calculator.md) covers button and keyboard entry, clear and backspace, the HTTP contract, and the error states.
+- [Form](./form.md) covers the contact form submission, its validation, and its acknowledgement.

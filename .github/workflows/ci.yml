@@ -15,28 +15,29 @@ concurrency:
 jobs:
   lint:
     if: github.repository_owner == 'simpsonm09-org'
-    uses: simpsonm09-org/simpsonm09-repo-standard/.github/workflows/lint.yml@ff73db7e9c71bb56643138a5addabc87f7e586b2 # repo-standard main
+    uses: simpsonm09-org/simpsonm09-repo-standard/.github/workflows/lint.yml@7ab60c58e71d65ca94d2774946445b29068776ce # repo-standard main
   aislop:
     if: github.repository_owner == 'simpsonm09-org'
     permissions:
       contents: read
       security-events: write
-    uses: simpsonm09-org/simpsonm09-repo-standard/.github/workflows/aislop.yml@ff73db7e9c71bb56643138a5addabc87f7e586b2 # repo-standard main
+    uses: simpsonm09-org/simpsonm09-repo-standard/.github/workflows/aislop.yml@7ab60c58e71d65ca94d2774946445b29068776ce # repo-standard main
   security:
     if: github.repository_owner == 'simpsonm09-org'
     permissions:
       contents: read
       security-events: write
-    uses: simpsonm09-org/simpsonm09-repo-standard/.github/workflows/security.yml@ff73db7e9c71bb56643138a5addabc87f7e586b2 # repo-standard main
+    uses: simpsonm09-org/simpsonm09-repo-standard/.github/workflows/security.yml@7ab60c58e71d65ca94d2774946445b29068776ce # repo-standard main
   standard:
     if: github.repository_owner == 'simpsonm09-org'
     permissions:
       contents: read
-    uses: simpsonm09-org/simpsonm09-repo-standard/.github/workflows/standard.yml@ff73db7e9c71bb56643138a5addabc87f7e586b2 # repo-standard main
+    uses: simpsonm09-org/simpsonm09-repo-standard/.github/workflows/standard.yml@7ab60c58e71d65ca94d2774946445b29068776ce # repo-standard main
 
   test:
     if: github.repository_owner == 'simpsonm09-org'
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -45,11 +46,16 @@ jobs:
           persist-credentials: false
       - name: Install pinned tools
         uses: jdx/mise-action@9149ea85001c7435d5a66bb127d6a1b6227cb0a5 # v5.0.0
-      - name: Install and test
+      - name: Install dependencies
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+        run: npm ci
+      - name: Check the API document
         run: |
-          pip install -e '.[test]'
-          python -m playwright install --with-deps chromium
-          pytest --cov=src --cov-report=lcov:coverage/lcov.info
+          just spec
+          git diff --exit-code -- docs/openapi.json
+      - name: Tests with coverage
+        run: npm run coverage
       - name: Patch coverage
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}

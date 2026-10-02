@@ -1,6 +1,6 @@
 # Calculator
 
-The calculator is the one user-facing feature. A reader builds an arithmetic expression with the on-screen buttons or the keyboard and gets a number back.
+The calculator is the primary user-facing feature. A reader builds an arithmetic expression with the on-screen buttons or the keyboard and gets a number back.
 
 ## Sub-features
 
@@ -21,10 +21,9 @@ The calculator is the one user-facing feature. A reader builds an arithmetic exp
 
 Preconditions:
 
-- The app is healthy at `http://127.0.0.1:8010`.
-- Chromium is installed for the pinned Python (`just deps`).
+- The app is healthy at `http://127.0.0.1:8010`, or run the driver with no `--base-url` and let it launch the server.
 
-- **Buttons.** Choose `7`, `*`, `6`, then `=`. Run `python .opencode/skills/verify/scripts/drive.py --base-url http://127.0.0.1:8010 --out artifacts/verify/calculator`. `#expression` reads `7*6` and `#result` reads `42`.
+- **Buttons.** Choose `7`, `*`, `6`, then `=`. Run `node .opencode/skills/verify/scripts/drive.mjs --out artifacts/verify/calculator`. `#expression` reads `7*6` and `#result` reads `42`.
 - **Keyboard.** Type `2+3` and press `Enter`. `#expression` reads `2+3` and `#result` reads `5`.
 - **Power key.** Type `2^3` and press `Enter`. `#expression` reads `2**3` and `#result` reads `8`.
 - **Clear.** Type `12` and press `Escape`. `#expression` reads `0`.
@@ -39,5 +38,6 @@ Preconditions:
 - A green unit test is not proof of the page; drive the real page and assert the rendered `#result`.
 - The page sends the expression to the server, so an evaluator change must be exercised through a real expression, not by reading the module.
 - `^` is rewritten to `**` in the display, so assert `2**3`, not `2^3`.
+- The keydown handler ignores the keyboard while focus is in the contact form, so click the page before typing a calculator expression.
 - Drive a verification port such as 8010 so `just serve` on 8000 keeps working.
 - Keep the artifacts; cleanup stops the server, not the proof.

@@ -1,6 +1,6 @@
 # Calculator
 
-The calculator is the one user-facing feature. A reader opens the page, builds an expression, and gets a number.
+The calculator evaluates one arithmetic expression. A reader opens the page, builds an expression, and gets a number.
 
 ## What it does
 
@@ -24,11 +24,15 @@ The request body is `{"expression": "<text>"}`. The success body is `{"expressio
 
 | Input | Response |
 | --- | --- |
-| Missing `expression`, or an empty string | `422`, rejected by the request model before evaluation. |
-| A whitespace-only `expression` such as `"   "` | `400` with `detail` `"expression is empty"`. |
+| Missing `expression`, or a value that is not a string | `400`, rejected by the route body schema before evaluation. |
+| An empty string or a whitespace-only `expression` such as `"   "` | `400` with `detail` `"expression is empty"`. |
 | Malformed syntax such as `2 +` | `400` with `detail` `"expression is not valid syntax"`. |
-| Division by zero | `400` with `detail` `"division by zero"`. |
-| A name, call, or attribute access | `400`, because the node is not in the dispatch table. |
+| Division by zero, including `% 0` | `400` with `detail` `"division by zero"`. |
+| A name, call, or attribute access such as `abs(-1)` | `400` with `detail` `"expression is not valid syntax"`. |
 | A result that is not a real number, such as `(-1) ** 0.5` | `400` with `detail` `"result is not a real number"`. |
-| A result that overflows a float | `400` with `detail` `"result is out of range"`. |
-| An expression longer than 200 characters | `400`, and `422` before evaluation when it exceeds the field limit. |
+| A result that overflows a float, such as `9 ** 9 ** 9` | `400` with `detail` `"result is out of range"`. |
+| An expression longer than 200 characters | `400`, rejected by the body schema before evaluation. |
+
+## Safety invariant
+
+The evaluator is the security boundary. It tokenizes first and rejects any character outside numbers, the allowed operators, and parentheses, so an expression can never call a function, read a global, or touch the host.

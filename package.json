@@ -1,0 +1,28 @@
+{
+  "name": "browser-calculator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A browser calculator served by Fastify: a safe arithmetic evaluator and a stateless form.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "spec": "node scripts/write-openapi.mjs",
+    "verify": "npm test"
+  },
+  "dependencies": {
+    "@fastify/static": "^10.1.5",
+    "@fastify/swagger": "^9.9.1",
+    "fastify": "^5.12.5"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^5.0.3",
+    "playwright": "1.63.0",
+    "vitest": "^5.0.3"
+  }
+}
