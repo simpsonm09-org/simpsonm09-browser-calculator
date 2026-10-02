@@ -48,6 +48,10 @@ jobs:
         run: |
           pip install -e '.[test]'
           python -m playwright install --with-deps chromium
-          pytest
+          pytest --cov=src --cov-report=lcov:coverage/lcov.info
+      - name: Patch coverage
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: node scripts/patch-coverage.mjs --lcov coverage/lcov.info --base "$BASE" --threshold 80
       - name: Build the container image
         run: docker build -t browser-calculator:ci .
