@@ -1,10 +1,15 @@
 // The Fastify application that serves the calculator.
-import { fileURLToPath } from "node:url";
+
 import { dirname, join } from "node:path";
-import Fastify from "fastify";
+import { fileURLToPath } from "node:url";
 import fastifyStatic from "@fastify/static";
 import fastifySwagger from "@fastify/swagger";
-import { MAX_EXPRESSION_LENGTH, ExpressionError, evaluate } from "./evaluator.js";
+import Fastify from "fastify";
+import {
+  ExpressionError,
+  evaluate,
+  MAX_EXPRESSION_LENGTH,
+} from "./evaluator.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = join(HERE, "..", "public");
@@ -14,7 +19,11 @@ const evaluateBody = {
   required: ["expression"],
   additionalProperties: false,
   properties: {
-    expression: { type: "string", minLength: 1, maxLength: MAX_EXPRESSION_LENGTH },
+    expression: {
+      type: "string",
+      minLength: 1,
+      maxLength: MAX_EXPRESSION_LENGTH,
+    },
   },
 };
 
@@ -65,7 +74,8 @@ export async function buildApp(options = {}) {
       openapi: "3.1.0",
       info: {
         title: "Browser Calculator API",
-        description: "Evaluate a single arithmetic expression and accept one form submission.",
+        description:
+          "Evaluate a single arithmetic expression and accept one form submission.",
         version: "0.1.0",
       },
       tags: [
@@ -78,7 +88,9 @@ export async function buildApp(options = {}) {
 
   await app.register(fastifyStatic, { root: PUBLIC_DIR, index: false });
 
-  app.get("/", { schema: { hide: true } }, (request, reply) => reply.sendFile("index.html"));
+  app.get("/", { schema: { hide: true } }, (request, reply) =>
+    reply.sendFile("index.html"),
+  );
 
   app.get(
     "/healthz",
@@ -152,7 +164,9 @@ export async function buildApp(options = {}) {
     },
   );
 
-  app.get("/openapi.json", { schema: { hide: true } }, async () => app.swagger());
+  app.get("/openapi.json", { schema: { hide: true } }, async () =>
+    app.swagger(),
+  );
 
   return app;
 }

@@ -33,7 +33,10 @@ function tokenize(text) {
       continue;
     }
     if (BINARY.has(char) || char === "(" || char === ")") {
-      tokens.push({ type: char === "(" || char === ")" ? "paren" : "operator", value: char });
+      tokens.push({
+        type: char === "(" || char === ")" ? "paren" : "operator",
+        value: char,
+      });
       index += 1;
       continue;
     }
@@ -86,7 +89,11 @@ class Parser {
   parseAdditive() {
     let left = this.parseMultiplicative();
     let token = this.peek();
-    while (token !== null && token.type === "operator" && (token.value === "+" || token.value === "-")) {
+    while (
+      token !== null &&
+      token.type === "operator" &&
+      (token.value === "+" || token.value === "-")
+    ) {
       this.position += 1;
       const right = this.parseMultiplicative();
       left = token.value === "+" ? left + right : left - right;
@@ -98,7 +105,11 @@ class Parser {
   parseMultiplicative() {
     let left = this.parseUnary();
     let token = this.peek();
-    while (token !== null && token.type === "operator" && "+-".indexOf(token.value) === -1) {
+    while (
+      token !== null &&
+      token.type === "operator" &&
+      "+-".indexOf(token.value) === -1
+    ) {
       this.position += 1;
       const right = this.parseUnary();
       if (token.value === "*") {
@@ -118,7 +129,11 @@ class Parser {
 
   parseUnary() {
     const token = this.peek();
-    if (token !== null && token.type === "operator" && (token.value === "+" || token.value === "-")) {
+    if (
+      token !== null &&
+      token.type === "operator" &&
+      (token.value === "+" || token.value === "-")
+    ) {
       this.position += 1;
       const operand = this.parseUnary();
       return token.value === "-" ? -operand : operand;
@@ -151,7 +166,11 @@ class Parser {
       this.position += 1;
       const value = this.parseExpression();
       const closing = this.peek();
-      if (closing === null || closing.type !== "paren" || closing.value !== ")") {
+      if (
+        closing === null ||
+        closing.type !== "paren" ||
+        closing.value !== ")"
+      ) {
         throw new ExpressionError("expression is not valid syntax");
       }
       this.position += 1;

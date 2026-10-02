@@ -97,7 +97,11 @@ describe("POST /api/evaluate", () => {
   });
 
   it("rejects a missing expression", async () => {
-    const response = await app.inject({ method: "POST", url: "/api/evaluate", payload: {} });
+    const response = await app.inject({
+      method: "POST",
+      url: "/api/evaluate",
+      payload: {},
+    });
     expect(response.statusCode).toBe(400);
   });
 
@@ -119,7 +123,11 @@ describe("POST /api/tools/form", () => {
       email: "ada@example.com",
       message: "Hello there",
     };
-    const response = await app.inject({ method: "POST", url: "/api/tools/form", payload });
+    const response = await app.inject({
+      method: "POST",
+      url: "/api/tools/form",
+      payload,
+    });
     expect(response.statusCode).toBe(200);
     const body = response.json();
     expect(body.name).toBe(payload.name);
@@ -151,7 +159,11 @@ describe("POST /api/tools/form", () => {
     [{ name: "Ada", email: "ada@example.com" }],
     [{}],
   ])("rejects the invalid payload %j", async (payload) => {
-    const response = await app.inject({ method: "POST", url: "/api/tools/form", payload });
+    const response = await app.inject({
+      method: "POST",
+      url: "/api/tools/form",
+      payload,
+    });
     expect(response.statusCode).toBe(400);
   });
 });

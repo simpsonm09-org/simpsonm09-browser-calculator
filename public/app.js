@@ -1,5 +1,3 @@
-"use strict";
-
 const expressionEl = document.getElementById("expression");
 const resultEl = document.getElementById("result");
 const keypadEl = document.getElementById("keypad");
@@ -55,17 +53,28 @@ async function describeFailure(response) {
   } catch {
     payload = null;
   }
-  const detail = payload !== null && typeof payload === "object" ? payload.detail : undefined;
+  const detail =
+    payload !== null && typeof payload === "object"
+      ? payload.detail
+      : undefined;
   if (typeof detail === "string" && detail !== "") {
     return detail;
   }
   if (Array.isArray(detail) && detail.length > 0) {
     const first = detail[0];
-    if (first !== null && typeof first === "object" && typeof first.msg === "string") {
+    if (
+      first !== null &&
+      typeof first === "object" &&
+      typeof first.msg === "string"
+    ) {
       return first.msg;
     }
   }
-  if (payload !== null && typeof payload === "object" && typeof payload.message === "string") {
+  if (
+    payload !== null &&
+    typeof payload === "object" &&
+    typeof payload.message === "string"
+  ) {
     return payload.message;
   }
   return "Request failed (HTTP " + response.status + ")";
@@ -106,7 +115,11 @@ async function evaluateExpression() {
     }
 
     const payload = await response.json();
-    if (payload === null || typeof payload !== "object" || typeof payload.result !== "number") {
+    if (
+      payload === null ||
+      typeof payload !== "object" ||
+      typeof payload.result !== "number"
+    ) {
       show("The server returned an unexpected result", true);
       return;
     }
@@ -115,7 +128,10 @@ async function evaluateExpression() {
     show(lastResult, false);
   } catch (error) {
     const timedOut = error !== null && error.name === "AbortError";
-    show(timedOut ? "The server took too long" : "Could not reach the server", true);
+    show(
+      timedOut ? "The server took too long" : "Could not reach the server",
+      true,
+    );
   } finally {
     clearTimeout(timer);
     inFlight = false;
@@ -123,7 +139,9 @@ async function evaluateExpression() {
 }
 
 keypadEl.addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-insert], button[data-action]");
+  const button = event.target.closest(
+    "button[data-insert], button[data-action]",
+  );
   if (button === null) {
     return;
   }
@@ -149,7 +167,11 @@ document.addEventListener("keydown", (event) => {
   if (event.ctrlKey || event.metaKey || event.altKey) {
     return;
   }
-  if (event.target instanceof HTMLFormElement || event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+  if (
+    event.target instanceof HTMLFormElement ||
+    event.target instanceof HTMLInputElement ||
+    event.target instanceof HTMLTextAreaElement
+  ) {
     return;
   }
   if (event.key === "Enter" || event.key === "=") {
@@ -205,7 +227,8 @@ if (formEl !== null && formStatusEl !== null) {
         return;
       }
       const body = await response.json();
-      formStatusEl.textContent = "Thanks, " + body.name + ". Your message was received.";
+      formStatusEl.textContent =
+        "Thanks, " + body.name + ". Your message was received.";
     } catch {
       formStatusEl.textContent = "Could not reach the server";
       formStatusEl.classList.add("contact__status--error");

@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { ExpressionError, MAX_EXPRESSION_LENGTH, evaluate } from "../src/evaluator.js";
+import {
+  ExpressionError,
+  evaluate,
+  MAX_EXPRESSION_LENGTH,
+} from "../src/evaluator.js";
 
 describe("evaluate", () => {
   it("adds", () => {
@@ -60,11 +64,15 @@ describe("evaluate", () => {
   });
 
   it("rejects a non-real result", () => {
-    expect(() => evaluate("(-1) ** 0.5")).toThrowError("result is not a real number");
+    expect(() => evaluate("(-1) ** 0.5")).toThrowError(
+      "result is not a real number",
+    );
   });
 
   it("rejects an out-of-range result", () => {
-    expect(() => evaluate("9 ** 9 ** 9")).toThrowError("result is out of range");
+    expect(() => evaluate("9 ** 9 ** 9")).toThrowError(
+      "result is out of range",
+    );
   });
 
   it("rejects an overlong expression", () => {
