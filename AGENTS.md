@@ -16,7 +16,7 @@ A Fastify service and a static page that evaluate arithmetic. It is the referenc
 
 ## Repo facts
 
-- Language and toolchain: Node 24, Fastify 5, plain ESM JavaScript, Vitest, pinned in `mise.toml` and `package.json`.
+- Language and toolchain: Node 26, Fastify 5, plain ESM JavaScript, Vitest, pinned in `mise.toml` and `package.json`.
 - Data: no database. State is per request.
 - Domain: the page sends an expression to `POST /api/evaluate`. The server parses it with the safe evaluator in `src/evaluator.js` and returns the number. The page posts a form to `POST /api/tools/form`, which validates and acknowledges it.
 - Contracts: `docs/openapi.json` is generated from the route schemas. Regenerate it with `just spec`; do not hand-edit it.
