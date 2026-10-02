@@ -14,3 +14,7 @@ trivy.sarif
 .aislop/history.jsonl
 .aislop/agent/
 .DS_Store
+
+# Verification proof artifacts
+artifacts/
+coverage/
