@@ -14,6 +14,21 @@ import {
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = join(HERE, "..", "public");
 
+const openApiDocument = {
+  openapi: "3.1.0",
+  info: {
+    title: "Browser Calculator API",
+    description:
+      "Evaluate a single arithmetic expression and accept one form submission.",
+    version: "0.1.0",
+  },
+  tags: [
+    { name: "calculator", description: "Evaluate arithmetic." },
+    { name: "tools", description: "Small stateless utilities." },
+    { name: "health", description: "Liveness." },
+  ],
+};
+
 const evaluateBody = {
   type: "object",
   required: ["expression"],
@@ -69,29 +84,25 @@ export async function buildApp(options = {}) {
 
   // The swagger plugin must finish loading before the routes are registered,
   // or its onRoute hook misses them and the document comes out empty.
-  await app.register(fastifySwagger, {
-    openapi: {
-      openapi: "3.1.0",
-      info: {
-        title: "Browser Calculator API",
-        description:
-          "Evaluate a single arithmetic expression and accept one form submission.",
-        version: "0.1.0",
-      },
-      tags: [
-        { name: "calculator", description: "Evaluate arithmetic." },
-        { name: "tools", description: "Small stateless utilities." },
-        { name: "health", description: "Liveness." },
-      ],
-    },
-  });
-
+  await app.register(fastifySwagger, { openapi: openApiDocument });
   await app.register(fastifyStatic, { root: PUBLIC_DIR, index: false });
 
+  registerPage(app);
+  registerHealth(app);
+  registerEvaluate(app);
+  registerForm(app);
+  registerOpenApi(app);
+
+  return app;
+}
+
+function registerPage(app) {
   app.get("/", { schema: { hide: true } }, (request, reply) =>
     reply.sendFile("index.html"),
   );
+}
 
+function registerHealth(app) {
   app.get(
     "/healthz",
     {
@@ -110,7 +121,9 @@ export async function buildApp(options = {}) {
     },
     async () => ({ status: "ok" }),
   );
+}
 
+function registerEvaluate(app) {
   app.post(
     "/api/evaluate",
     {
@@ -140,7 +153,9 @@ export async function buildApp(options = {}) {
       }
     },
   );
+}
 
+function registerForm(app) {
   app.post(
     "/api/tools/form",
     {
@@ -163,10 +178,10 @@ export async function buildApp(options = {}) {
       };
     },
   );
+}
 
+function registerOpenApi(app) {
   app.get("/openapi.json", { schema: { hide: true } }, async () =>
     app.swagger(),
   );
-
-  return app;
 }
