@@ -33,6 +33,7 @@ test:
 
 # Run the tests and write an lcov report to coverage/lcov.info.
 coverage:
+    npm ci
     npm run coverage
 
 # Regenerate docs/openapi.json from the route schemas.
