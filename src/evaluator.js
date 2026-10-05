@@ -18,12 +18,37 @@ export class ExpressionError extends Error {
 const NUMBER = /(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?/y;
 const BINARY = new Set(["+", "-", "*", "/", "%", "**"]);
 
+function isWhitespace(char) {
+  return char === " " || char === "\t" || char === "\n" || char === "\r";
+}
+
+function isNumberStart(char) {
+  return char === "." || (char >= "0" && char <= "9");
+}
+
+function symbolToken(char) {
+  const type = char === "(" || char === ")" ? "paren" : "operator";
+  return { type, value: char };
+}
+
+function readNumber(text, index) {
+  NUMBER.lastIndex = index;
+  const match = NUMBER.exec(text);
+  if (match === null) {
+    throw new ExpressionError("expression is not valid syntax");
+  }
+  return {
+    token: { type: "number", value: Number(match[0]) },
+    nextIndex: NUMBER.lastIndex,
+  };
+}
+
 function tokenize(text) {
   const tokens = [];
   let index = 0;
   while (index < text.length) {
     const char = text[index];
-    if (char === " " || char === "\t" || char === "\n" || char === "\r") {
+    if (isWhitespace(char)) {
       index += 1;
       continue;
     }
@@ -33,21 +58,14 @@ function tokenize(text) {
       continue;
     }
     if (BINARY.has(char) || char === "(" || char === ")") {
-      tokens.push({
-        type: char === "(" || char === ")" ? "paren" : "operator",
-        value: char,
-      });
+      tokens.push(symbolToken(char));
       index += 1;
       continue;
     }
-    if (char === "." || (char >= "0" && char <= "9")) {
-      NUMBER.lastIndex = index;
-      const match = NUMBER.exec(text);
-      if (match === null) {
-        throw new ExpressionError("expression is not valid syntax");
-      }
-      tokens.push({ type: "number", value: Number(match[0]) });
-      index = NUMBER.lastIndex;
+    if (isNumberStart(char)) {
+      const { token, nextIndex } = readNumber(text, index);
+      tokens.push(token);
+      index = nextIndex;
       continue;
     }
     throw new ExpressionError("expression is not valid syntax");
