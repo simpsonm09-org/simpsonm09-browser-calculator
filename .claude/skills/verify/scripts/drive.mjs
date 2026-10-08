@@ -4,7 +4,7 @@
 // Starts the Fastify server on a free port, drives the page with Chromium, then
 // stops the server it started. Exits non-zero when an expected result is wrong.
 //
-//   node .opencode/skills/verify/scripts/drive.mjs --out artifacts/verify/calculator
+//   node .claude/skills/verify/scripts/drive.mjs --out artifacts/verify/calculator
 //
 // Pass --base-url to drive an instance that is already running instead of
 // starting one.
