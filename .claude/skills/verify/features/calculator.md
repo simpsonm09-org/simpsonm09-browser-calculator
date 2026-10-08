@@ -23,7 +23,7 @@ Preconditions:
 
 - The app is healthy at `http://127.0.0.1:8010`, or run the driver with no `--base-url` and let it launch the server.
 
-- **Buttons.** Choose `7`, `*`, `6`, then `=`. Run `node .opencode/skills/verify/scripts/drive.mjs --out artifacts/verify/calculator`. `#expression` reads `7*6` and `#result` reads `42`.
+- **Buttons.** Choose `7`, `*`, `6`, then `=`. Run `node .claude/skills/verify/scripts/drive.mjs --out artifacts/verify/calculator`. `#expression` reads `7*6` and `#result` reads `42`.
 - **Keyboard.** Type `2+3` and press `Enter`. `#expression` reads `2+3` and `#result` reads `5`.
 - **Power key.** Type `2^3` and press `Enter`. `#expression` reads `2**3` and `#result` reads `8`.
 - **Clear.** Type `12` and press `Escape`. `#expression` reads `0`.

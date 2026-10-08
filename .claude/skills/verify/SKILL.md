@@ -38,13 +38,13 @@ If it is not 200, the instance is not ours or not up. The driver's own launch pa
 Run the shipped helper. With no `--base-url` it launches the server, drives the page, and stops the server it started:
 
 ```bash
-node .opencode/skills/verify/scripts/drive.mjs --out artifacts/verify/calculator
+node .claude/skills/verify/scripts/drive.mjs --out artifacts/verify/calculator
 ```
 
 To target an already-running instance, pass its base URL:
 
 ```bash
-node .opencode/skills/verify/scripts/drive.mjs --base-url http://127.0.0.1:8010 --out artifacts/verify/calculator
+node .claude/skills/verify/scripts/drive.mjs --base-url http://127.0.0.1:8010 --out artifacts/verify/calculator
 ```
 
 The helper drives the page with Chromium, clicks `7`, `*`, `6`, then `=`, asserts the display, submits the contact form, captures a screenshot, an ARIA snapshot, and `evidence.json`, and exits non-zero when an expected result is wrong. For the HTTP contract on its own:

@@ -1,6 +1,7 @@
 .git
 .github
 .opencode
+.claude
 docs
 templates
 tests
