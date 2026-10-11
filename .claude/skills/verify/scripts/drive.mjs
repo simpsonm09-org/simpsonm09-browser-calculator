@@ -58,6 +58,7 @@ function startServer(port) {
   const child = spawn(process.execPath, ["src/server.js", "--host", "127.0.0.1", "--port", String(port)], {
     cwd: REPO,
     stdio: ["ignore", "pipe", "pipe"],
+    windowsHide: true,
   });
   return child;
 }
