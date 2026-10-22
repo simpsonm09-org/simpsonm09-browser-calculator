@@ -16,13 +16,13 @@
     "verify": "npm test"
   },
   "dependencies": {
-    "@fastify/static": "^10.1.5",
-    "@fastify/swagger": "^9.9.1",
-    "fastify": "^5.12.5"
+    "@fastify/static": "^10.1.6",
+    "@fastify/swagger": "^9.9.2",
+    "fastify": "^5.12.7"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^5.0.3",
-    "playwright": "1.63.0",
+    "@vitest/coverage-v8": "^5.0.5",
+    "playwright": "1.64.1",
     "vitest": "^5.0.3"
   }
 }
