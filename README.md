@@ -2,7 +2,7 @@
 
 A browser calculator served by Fastify. The page sends an arithmetic expression to the server, the server evaluates it with a small safe evaluator, and the page shows the number. The page also posts a stateless contact form.
 
-This repository lives in `simpsonm09-projects/simpsonm09-browser-calculator`. Work happens on a branch
+This repository lives in `simpsonm09-projects/browser-calculator`. Work happens on a branch
 with a pull request into `main`.
 See [`repo-standard`](https://github.com/simpsonm09-projects/simpsonm09-repo-standard)
 for the branch model and the protection rules.
