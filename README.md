@@ -4,7 +4,7 @@ A browser calculator served by Fastify. The page sends an arithmetic expression 
 
 This repository lives in `simpsonm09-projects/browser-calculator`. Work happens on a branch
 with a pull request into `main`.
-See [`repo-standard`](https://github.com/simpsonm09-projects/simpsonm09-repo-standard)
+See [`repo-standard`](https://github.com/simpsonm09-projects/repo-standard)
 for the branch model and the protection rules.
 
 ## What it does
